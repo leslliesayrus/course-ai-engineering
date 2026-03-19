@@ -1,0 +1,8 @@
+myenv/
+.env
+**/.env
+.env.*
+**/.env.*
+
+__pycache__/
+.chainlit/

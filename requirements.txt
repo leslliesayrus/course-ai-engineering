@@ -4,7 +4,6 @@ chainlit
 httpx
 langchain
 langchain-groq
-tavily
 python-dotenv
 psycopg2[binary]
 langsmith

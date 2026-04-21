@@ -1,16 +1,17 @@
 """
-Chainlit -> FastAPI (POST /chat). Uvicorn e Chainlit nao podem dividir a mesma porta.
+Chainlit -> FastAPI backend (POST /chat).
 
-  API: http://127.0.0.1:8000
-  Chat: http://127.0.0.1:8001  (ex.: chainlit run app.py -w --port 8001)
+Importante: uvicorn e Chainlit nao podem usar a mesma porta.
+  - API: http://127.0.0.1:8000
+  - Chat (Chainlit): http://127.0.0.1:8001
 
-Backend:
-  cd backend && uvicorn main:app --reload --host 127.0.0.1 --port 8000
+1) Backend:
+   cd backend && uvicorn main:app --reload --host 127.0.0.1 --port 8000
 
-Frontend:
-  cd frontend && chainlit run app.py -w --port 8001
+2) Frontend (defina CHAINLIT_PORT=8001 no frontend/.env OU use --port):
+   cd frontend && chainlit run app.py -w --port 8001
 
-CHAT_API_BASE_URL no .env aponta para a API (8000), nao para o Chainlit.
+Abra o chat em http://localhost:8001 — nao use :8000 (ali e so a API JSON).
 """
 
 from __future__ import annotations
@@ -26,7 +27,8 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
 DEFAULT_API_BASE = "http://127.0.0.1:8000"
-CHAT_TIMEOUT = 120.0
+# Agente com varias tools (Pinecone + SQLite) pode demorar mais que o Market Agent.
+CHAT_TIMEOUT = 180.0
 
 
 def _api_base() -> str:
@@ -37,7 +39,8 @@ def _api_base() -> str:
 async def on_chat_start() -> None:
     await cl.Message(
         content=(
-            "Ola eu sou o **Market Agent AI**! Como eu posso te ajudar hoje?"
+            "Ola! Sou o **PoD Academy Agent** — busco em resumos e titulos (Pinecone) e "
+            "posso trazer a transcricao pelo video_id (SQLite). Como posso ajudar?"
         )
     ).send()
 
@@ -60,7 +63,7 @@ async def on_message(message: cl.Message) -> None:
             content=(
                 f"**Não foi possível conectar** em `{url}`.\n\n"
                 "Confirme que o backend está rodando, por exemplo:\n"
-                "`cd backend && uvicorn main:app --reload`"
+                "`cd backend && uvicorn main:app --reload --host 127.0.0.1 --port 8000`"
             )
         ).send()
         return

@@ -3,12 +3,12 @@ from pydantic import BaseModel
 
 from agent import ask_agent
 
-
-app = FastAPI(title="Agent SQL API")
+app = FastAPI(title="PoD Academy Agent API")
 
 
 @app.get("/")
 def root() -> dict[str, str]:
+    """Evita 404 ao abrir http://127.0.0.1:8000 no navegador; o chat e via POST /chat."""
     return {
         "service": app.title,
         "health": "/health",

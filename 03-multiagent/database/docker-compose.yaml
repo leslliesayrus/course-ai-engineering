@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: course-ai-multiagent-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: app_password
+      POSTGRES_DB: app_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+    # Nome fixo no host: evita reutilizar dados de outro docker-compose com "postgres_data"
+    # e garante que POSTGRES_USER / POSTGRES_DB sao aplicados na primeira subida deste volume.
+    name: course-ai-03-multiagent-pgdata

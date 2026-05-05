@@ -1,0 +1,94 @@
+# 🛒 Sistema de Mercado Simples
+
+Este documento descreve o schema de um sistema básico de mercado para controle de produtos, estoque e vendas.
+
+---
+
+# 🧱 Tabelas do Sistema
+
+## 📦 1. products
+
+Armazena os produtos disponíveis no sistema.
+
+### Campos
+
+| Campo | Tipo | Descrição |
+|------|------|----------|
+| id | SERIAL (PK) | Identificador único do produto |
+| nome | VARCHAR(100) | Nome do produto |
+| preco | DECIMAL(10,2) | Preço de venda |
+| custo | DECIMAL(10,2) | Custo do produto |
+
+---
+
+## 📊 2. inventory
+
+Controla a quantidade de cada produto em estoque.
+
+### Campos
+
+| Campo | Tipo | Descrição |
+|------|------|----------|
+| produto_id | INT (PK, FK) | ID do produto |
+| quantidade | INT | Quantidade disponível em estoque |
+
+### Relacionamento
+
+- `produto_id` → `products.id`
+
+---
+
+## 🛒 3. sales
+
+Registra as vendas realizadas.
+
+### Campos
+
+| Campo | Tipo | Descrição |
+|------|------|----------|
+| id | SERIAL (PK) | Identificador da venda |
+| produto_id | INT (FK) | Produto vendido |
+| quantidade | INT | Quantidade vendida |
+| total | DECIMAL(10,2) | Valor total da venda |
+| created_at | TIMESTAMP | Data e hora da venda |
+
+### Relacionamento
+
+- `produto_id` → `products.id`
+
+---
+
+# 🔗 Relacionamentos
+
+- Um **produto** pode estar em:
+  - um registro de **estoque**
+  - várias **vendas**
+
+---
+
+# ⚙️ Regras de Negócio Básicas
+
+- Ao criar uma venda:
+  - registrar na tabela `sales`
+  - diminuir a quantidade na tabela `inventory`
+
+---
+
+# 💡 Observações
+
+- Este modelo é simplificado para fins educacionais
+- Não possui:
+  - histórico de estoque
+  - múltiplos itens por venda
+  - controle de usuários
+
+---
+
+# 🚀 Possíveis Melhorias Futuras
+
+- Separar itens de venda (`sale_items`)
+- Adicionar histórico de movimentação de estoque
+- Criar tabela de categorias
+- Implementar controle de clientes
+
+---

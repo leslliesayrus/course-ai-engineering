@@ -84,7 +84,9 @@ jobs:
           IMAGE: ${{ steps.terraform.outputs.ecr_backend_repository_url }}
         run: |
           docker build -t chat-backend:latest 04-ecs-aws/backend
+          docker tag chat-backend:latest "${IMAGE}:${GITHUB_SHA}"
           docker tag chat-backend:latest "${IMAGE}:latest"
+          docker push "${IMAGE}:${GITHUB_SHA}"
           docker push "${IMAGE}:latest"
 
       - name: Build and push frontend image
@@ -92,7 +94,9 @@ jobs:
           IMAGE: ${{ steps.terraform.outputs.ecr_frontend_repository_url }}
         run: |
           docker build -t chat-frontend:latest 04-ecs-aws/frontend
+          docker tag chat-frontend:latest "${IMAGE}:${GITHUB_SHA}"
           docker tag chat-frontend:latest "${IMAGE}:latest"
+          docker push "${IMAGE}:${GITHUB_SHA}"
           docker push "${IMAGE}:latest"
 
   deploy-ecs:
@@ -132,6 +136,8 @@ jobs:
         env:
           TF_VAR_environ: ${{ env.ENVIRON }}
           TF_VAR_groq_api_key: ${{ secrets.GROQ_API_KEY }}
+          # Imagem muda a cada commit; sem isso :latest idêntico não gera nova task definition nem rollout.
+          TF_VAR_image_tag: ${{ github.sha }}
         run: terraform apply -auto-approve
 
       - name: URLs públicas

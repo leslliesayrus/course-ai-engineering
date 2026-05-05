@@ -16,7 +16,7 @@ variable "aws_region" {
 }
 
 variable "image_tag" {
-  description = "Tag das imagens no ECR"
+  description = "Tag das imagens no ECR. A pipeline define TF_VAR_image_tag com o SHA do commit para cada deploy; sem isso :latest não altera a task definition. Fora do CI o default latest costuma bastar."
   type        = string
   default     = "latest"
 }

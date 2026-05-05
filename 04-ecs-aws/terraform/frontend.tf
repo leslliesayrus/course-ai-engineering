@@ -5,7 +5,7 @@ resource "aws_cloudwatch_log_group" "frontend" {
 
 resource "aws_security_group" "alb_frontend" {
   name        = "${local.name_prefix}-frontend-alb-sg"
-  description = "HTTP public -> frontend ALB"
+  description = "HTTP from internet to frontend ALB"
   vpc_id      = data.aws_vpc.default.id
 
   ingress {
@@ -25,7 +25,7 @@ resource "aws_security_group" "alb_frontend" {
 
 resource "aws_security_group" "svc_frontend" {
   name        = "${local.name_prefix}-frontend-svc-sg"
-  description = "ALB -> frontend task"
+  description = "Traffic from frontend ALB to ECS tasks"
   vpc_id      = data.aws_vpc.default.id
 
   ingress {

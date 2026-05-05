@@ -50,7 +50,7 @@ resource "aws_iam_role_policy" "backend_secrets" {
 
 resource "aws_security_group" "alb_backend" {
   name        = "${local.name_prefix}-backend-alb-sg"
-  description = "HTTP public -> backend ALB"
+  description = "HTTP from internet to backend ALB"
   vpc_id      = data.aws_vpc.default.id
 
   ingress {
@@ -70,7 +70,7 @@ resource "aws_security_group" "alb_backend" {
 
 resource "aws_security_group" "svc_backend" {
   name        = "${local.name_prefix}-backend-svc-sg"
-  description = "ALB -> backend task"
+  description = "Traffic from backend ALB to ECS tasks"
   vpc_id      = data.aws_vpc.default.id
 
   ingress {

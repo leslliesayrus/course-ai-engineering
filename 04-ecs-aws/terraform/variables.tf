@@ -1,35 +1,52 @@
+variable "environ" {
+  description = "Ambiente (ex.: dev, prd). Usado em nomes chat-<environ>-* e nos repositórios ECR chat-*-<environ>."
+  type        = string
+}
+
+variable "groq_api_key" {
+  description = "Chave Groq; no CI vem do secret GROQ_API_KEY (TF_VAR_groq_api_key)."
+  type        = string
+  sensitive   = true
+}
+
 variable "aws_region" {
-  description = "AWS region for ECS resources"
+  description = "Região AWS"
   type        = string
   default     = "us-east-1"
 }
 
-variable "ecr_repository_url" {
-  description = "ECR repository URL without tag (example: 123456789012.dkr.ecr.us-east-1.amazonaws.com/chat-backend-dev)"
-  type        = string
-  default     = "123456789012.dkr.ecr.us-east-1.amazonaws.com/chat-backend-dev"
-}
-
 variable "image_tag" {
-  description = "Image tag to deploy"
+  description = "Tag das imagens no ECR"
   type        = string
   default     = "latest"
 }
 
-variable "task_cpu" {
-  description = "Fargate task CPU units"
-  type        = string
-  default     = "256"
+variable "backend_cpu" {
+  type    = string
+  default = "256"
 }
 
-variable "task_memory" {
-  description = "Fargate task memory in MiB"
-  type        = string
-  default     = "512"
+variable "backend_memory" {
+  type    = string
+  default = "512"
 }
 
-variable "container_port" {
-  description = "Container port exposed by the application"
-  type        = number
-  default     = 8000
+variable "frontend_cpu" {
+  type    = string
+  default = "512"
+}
+
+variable "frontend_memory" {
+  type    = string
+  default = "1024"
+}
+
+variable "backend_port" {
+  type    = number
+  default = 8000
+}
+
+variable "frontend_port" {
+  type    = number
+  default = 8005
 }

@@ -8,7 +8,7 @@ resource "aws_ecr_repository" "backend" {
   }
 
   tags = {
-    Project = "04-teste"
+    Project = "04-ecs-aws"
     Service = "backend"
     Env     = var.env
   }
@@ -24,7 +24,7 @@ resource "aws_ecr_repository" "frontend" {
   }
 
   tags = {
-    Project = "04-teste"
+    Project = "04-ecs-aws"
     Service = "frontend"
     Env     = var.env
   }

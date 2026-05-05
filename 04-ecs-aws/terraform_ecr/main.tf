@@ -1,6 +1,9 @@
 terraform {
   required_version = ">= 1.5.0"
 
+  # bucket, key e region vêm do `terraform init -backend-config=...` (ex.: CI).
+  backend "s3" {}
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"

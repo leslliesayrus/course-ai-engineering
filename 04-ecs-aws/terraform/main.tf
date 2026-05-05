@@ -27,7 +27,7 @@ data "aws_subnets" "default" {
 }
 
 locals {
-  app_name     = "04-teste-backend"
+  app_name     = "04-ecs-aws-backend"
   image_uri    = "${var.ecr_repository_url}:${var.image_tag}"
   container_id = "backend"
 }

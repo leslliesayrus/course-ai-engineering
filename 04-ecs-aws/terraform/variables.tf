@@ -5,9 +5,9 @@ variable "aws_region" {
 }
 
 variable "ecr_repository_url" {
-  description = "ECR repository URL without tag (example: 123456789012.dkr.ecr.us-east-1.amazonaws.com/04-teste-backend)"
+  description = "ECR repository URL without tag (example: 123456789012.dkr.ecr.us-east-1.amazonaws.com/chat-backend-dev)"
   type        = string
-  default     = "437274056715.dkr.ecr.us-east-1.amazonaws.com/04-teste-backend"
+  default     = "123456789012.dkr.ecr.us-east-1.amazonaws.com/chat-backend-dev"
 }
 
 variable "image_tag" {

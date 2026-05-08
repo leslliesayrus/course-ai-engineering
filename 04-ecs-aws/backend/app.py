@@ -79,7 +79,7 @@ def groq_message_stream_events(user_message: str):
 
     yield _sse_data_line({"type": "done"})
 
-
+# endpoint
 @app.post("/message")
 def message_endpoint(payload: MessageRequest) -> StreamingResponse:
     # Fail fast before streaming so the client gets a proper HTTP error.
@@ -99,3 +99,4 @@ def message_endpoint(payload: MessageRequest) -> StreamingResponse:
             "X-Accel-Buffering": "no",
         },
     )
+

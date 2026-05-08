@@ -1,0 +1,2 @@
+environ      = "dev"
+groq_api_key = "cole-a-chave-aqui-ou-use-tf-var-no-ci"

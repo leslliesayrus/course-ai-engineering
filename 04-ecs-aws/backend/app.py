@@ -10,7 +10,7 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-GROQ_SECRET_ID = "groq-key"
+GROQ_SECRET_ID = os.environ.get("GROQ_SECRET_ID", "groq-key")
 GROQ_SECRET_JSON_KEY = "GROQ-API-KEY"
 GROQ_MODEL = "llama-3.3-70b-versatile"
 
@@ -19,6 +19,11 @@ _llm: ChatGroq | None = None
 
 class MessageRequest(BaseModel):
     message: str
+
+
+@app.get("/health")
+def health() -> dict[str, str]:
+    return {"status": "ok"}
 
 
 def _secrets_manager_client():
@@ -74,7 +79,7 @@ def groq_message_stream_events(user_message: str):
 
     yield _sse_data_line({"type": "done"})
 
-
+# endpoint
 @app.post("/message")
 def message_endpoint(payload: MessageRequest) -> StreamingResponse:
     # Fail fast before streaming so the client gets a proper HTTP error.
@@ -94,3 +99,4 @@ def message_endpoint(payload: MessageRequest) -> StreamingResponse:
             "X-Accel-Buffering": "no",
         },
     )
+
